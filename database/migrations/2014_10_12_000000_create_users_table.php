@@ -20,7 +20,9 @@ return new class extends Migration
             $table->boolean('keterangan')->default(false);
             // $table->string('email')->unique()->nullable();
             // $table->timestamp('email_verified_at')->nullable();
+            $table->string('image')->nullable();
             $table->boolean('is_admin')->default(false);
+            $table->boolean('petugas')->default(false);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

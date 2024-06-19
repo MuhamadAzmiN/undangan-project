@@ -23,16 +23,28 @@ class DatabaseSeeder extends Seeder
         User::create([
             "name" => "Muhamad Azmi Naziyulloh",
             "nis" => 12309770,
-            "romble" => "PPLG X-4",
+            "romble" => "PPLG",
             "rayon" => "Cibedug 1",
             "password" => bcrypt('password'),
-            "is_admin" => true
+            "is_admin" => true,
+            "petugas" => true,
+        ]);
+
+        User::create([
+            "name" => "AdminGanteng",
+            "nis" => 12345678,
+            "romble" => "PPLG",
+            "rayon" => "Cibedug 1",
+            
+            "password" => bcrypt('password'),
+            "is_admin" => true,
+            "petugas" => true
         ]);
 
         User::create([
             "name" => "Nabylla Yospi",
             "nis" => 12309881,
-            "romble" => "PPLG X-4",
+            "romble" => "HTL",
             "rayon" => "Cibedug 4",
             "password" => bcrypt('password')
         ]);
@@ -41,10 +53,55 @@ class DatabaseSeeder extends Seeder
         User::create([
             "name" => "Zakwan",
             "nis" => 12309811,
-            "romble" => "PPLG X-4",
+            "romble" => "PPLG",
             "rayon" => "Sukasari 2",
             "password" => bcrypt('password')
         ]);
+
+        User::create([
+            "name" => "Andika Satrio",
+            "nis" => 12309812,
+            "romble" => "PPLG",
+            "rayon" => "Cicurug",
+            "password" => bcrypt('password')
+        ]);
+
+
+
+        User::create([
+            "name" => "petugas",
+            "nis" => 12309814,
+            "romble" => "PPLG",
+            "rayon" => "Cicurug",
+            "password" => bcrypt('password'),
+            "petugas" => true
+        ]);
+
+        User::create([
+            "name" => "Zaek",
+            "nis" => 12309824,
+            "romble" => "PPLG",
+            "rayon" => "Cicurug",
+            "password" => bcrypt('password'),
+            "petugas" => true
+        ]);
+
+
+        
+        User::create([
+            "name" => "Pen",
+            "nis" => 12309224,
+            "romble" => "DKV",
+            "rayon" => "Cicurug",
+            "password" => bcrypt('password'),
+            "petugas" => true
+        ]);
+
+
+        
+
+        
+
 
 
 
