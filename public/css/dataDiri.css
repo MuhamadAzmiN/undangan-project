@@ -1,0 +1,108 @@
+h1 {
+    color: black;
+}
+
+
+.user-article {
+    display: flex;
+    align-items: center;
+    justify-content: ce;
+    margin-bottom: 20px;
+}
+
+.text-user {
+    margin-left: 10px;
+}
+
+.data-diri {
+    background-color: rgb(255, 255, 255);
+    width: 900px;
+    height: 590px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #cfdae4
+}
+.btn-image {
+    background-color: #cde9f6;
+    border: none;
+    color: black;
+    width: 130px;
+    height: 40px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 59px; /* Menggunakan border-radius untuk semua sudut */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; /* Menambahkan kursor pointer untuk menandakan dapat diklik */
+
+    /* Efek tambahan ketika tombol di-hover */
+    transition: background-color 0.3s ease;
+}
+
+.btn-image:hover {
+    background-color: #cde9f6;
+}
+
+.input-all {
+    display: flex;
+    align-items: center;
+    
+   
+}
+
+.user-container {
+    padding-left: 30px;
+    padding-top: 20px;
+
+}
+
+.form-input {
+    margin-top: 50px;
+}
+
+.profile-image {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.all-profile {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.profile-container {
+    padding: 20px;
+}
+
+.input-all input {
+    width: 390px;
+    height: 40px;
+}
+
+.input-all label {
+    font-weight: bold;
+}
+
+.input-1 {
+    margin-right: 20px;
+}
+
+#btn-submit {
+    background-color: #196ecd;
+    color: white;
+    height: 40px;
+}
+
+.alert {
+    background-color: rgb(255, 233, 87);
+}
+
+#imageErrorToast {
+    width: 500px;
+
+}

@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\adminController;
+use App\Http\Controllers\DataDiriController;
 use App\Http\Controllers\DataSiswaController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -19,18 +22,43 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// ======= User Controller ====== 
+Route::controller(UserController::class)->group(function(){
+    // ====== user 
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/', 'index');
+        Route::get('/home', 'index');
+        Route::get('/detail/{user}', 'detail');
+        Route::get('dataSiswa','dataSiswa');
+    });
+});
+// ===== Admin ======
+Route::middleware(['admin'])->group(function () {
+        Route::resource('/dashboard/user', adminController::class);
+        Route::get('dataSiswa',[UserController::class, 'dataSiswa']);
+        Route::resource('/dashboard/absen', AbsenController::class);
 });
 
-Route::get('/home', [UserController::class, 'index']);
-Route::get('/detail/{user}', [UserController::class, 'detail']);
-Route::get('dataSiswa', [UserController::class, 'dataSiswa'])->middleware('admin');
+
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
 Route::post('/logout', [LoginController::class, 'logout']);
-Route::resource('/dashboard/user', adminController::class);
-Route::resource('/dashboard/absen', AbsenController::class);
+Route::resource('/dashboard/post', PostController::class);
+
+// Halaman Petugas
+Route::resource('/dashboard/petugas', PetugasController::class )->middleware('petugas');
+Route::post('/dashboard/petugas/pesan', [PetugasController::class , 'pesan'])->name('petugas.pesan');
+Route::get('/dashboard/dataAbsen', [PetugasController::class, 'dataAbsen'])->middleware('auth');
+Route::get('/dashboard/data', [PetugasController::class, 'data']);
+Route::get('/dashboard/chart', [PetugasController::class, 'chart']);
+
+Route::get('/dashboard/dataDiri', [UserController::class, 'dataDiri']);
+Route::put('dashboard/dataDiri', [UserController::class, 'update'])->name('datadiri.edit');
+Route::put('dashboard/dataImage', [UserController::class, 'updateImage'])->name('datadiri.image');
+Route::get('/dashboard/dataImage', [UserController::class, 'dataImage']);
+
+
+
 

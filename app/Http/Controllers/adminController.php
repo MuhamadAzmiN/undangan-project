@@ -48,8 +48,10 @@ class adminController extends Controller
      */
     public function edit(User $user)
     {
+        
         return view('dashboard.user.edit', [
-            "title" => "Halaman edit"
+            "title" => "Halaman edit",
+            "user" => $user
         ]);
     }
 
@@ -71,7 +73,6 @@ class adminController extends Controller
         // }   
 
         $validateData = $request->validate($rules);
-        $validateData["id"] = auth()->user()->id;
 
         // if($request->file('image')){
 
@@ -80,9 +81,6 @@ class adminController extends Controller
         //     }
         //     $validateData["image"] = $request->file('image')->store('post-image');
         // }           
-
-      
-
         
         User::where('id', $user->id)
                     ->update($validateData);
@@ -92,7 +90,7 @@ class adminController extends Controller
         // }
         
 
-        return redirect('/dataSiswa')->with('success', "Berhasil Terupdate");
+        return redirect('/home')->with('success', "Berhasil Terupdate");
         
     }
 
@@ -103,8 +101,8 @@ class adminController extends Controller
     {
         
         User::destroy($user->id);
-
-        return redirect('/dataSiswa')->with('success', "User Berhasil Di hapus");
+        
+        return redirect('/')->with('success', "User Berhasil Di hapus");
     }
     
 }

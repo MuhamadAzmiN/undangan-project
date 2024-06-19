@@ -17,6 +17,7 @@
                     <th>Rayon</th>
                     <th>Romble</th>
                     <th>Aksi</th>
+                    <th>Jam Kedatangan User</th>
                 </tr>
             </thead>
             @php
@@ -28,33 +29,46 @@
                 {{  session('success') }}
               </div>
             @endif
+
+            @if (session()->has('info'))
+            <div class="alert alert-warning" role="alert">
+                {{  session('info') }}
+              </div>
+            @endif
+
+            @if (session()->has('danger'))
+            <div style="text-align: center" class="alert alert-danger" role="alert">
+                {{  session('danger') }}
+              </div>
+            @endif
             
             @foreach ($user as $item)
             <tbody>
-                <td>{{ $item->id }}</td>
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $item->user->name }}</td>
                 <td>{{ $item->user->nis }}</td>
                 <td>{{ $item->user->rayon }}</td>
                 <td>{{ $item->user->romble }}</td>
                 <td>
-                
-                    <a class="badge bg-info" href="/dashboard/user/{{ $item->id }}">
+
+                  @can('admin')
+                    {{-- <a class="badge bg-info" href="/dashboard/user/{{ $item->id }}">
                         <i class="bi bi-ticket-detailed-fill Smaller heading"></i>
-                    </a>
-                    <form class="d-inline" action="/dashboard/user/{{ $item->id }}/edit" method="POST">
+                    </a> --}}
+                    <form class="d-inline" action="/dashboard/absen/{{ $item->id }}" method="POST">
                         @method('delete')
                         @csrf
                         
                         <button onclick="return confirm('Are You Sure?')" class=" badge bg-danger border-0"> <i class="bi bi-trash2"></i></i></button>
                     </form>
-                    <a class="badge bg-warning" href="/dashboard/user/{{ $item->id }}/edit">
-                        <i class="bi bi-ticket-detailed-fill Smaller heading"></i>
-                    </a>
+          
+                    @endcan
                 </td>
+                <td>{{ $item->created_at }}</td>
             </tbody>
             @endforeach
         </table>
-    </div>
+    </div> 
     <div class="d-flex justify-content-center">
 		{{-- {{ $user->links() }} --}}
 	   </div>

@@ -23,11 +23,11 @@
                 
                 $i = 1;
             @endphp
-            @if (session()->has('success'))
-            <div class="alert alert-success" role="alert">
-                {{  session('success') }}
-              </div>
-            @endif
+                @if (session()->has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{  session('success') }}
+                </div>
+                @endif
             
             @foreach ($data as $item)
             <tbody>

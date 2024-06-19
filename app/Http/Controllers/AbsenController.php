@@ -33,8 +33,6 @@ class AbsenController extends Controller
     public function store(Request $request)
     {
         $user = User::where('nis', $request->nis)->first();
-
-        // Jika tidak ada user dengan nama yang sama dalam tabel users, kembalikan ke halaman absen
         if (!$user) {
             return redirect('/dashboard/absen')->with('info', 'Nama tidak ditemukan dalam database.');
         }
@@ -44,8 +42,6 @@ class AbsenController extends Controller
         if ($absen) {
             return redirect('/dashboard/absen')->with('info', 'Nama sudah absen.');
         }
-    
-        // Membuat entri baru dalam tabel absen
         $absenCreate = Absen::create([
             'id' => $request->id,
             'nis' => $request->nis
@@ -75,7 +71,10 @@ class AbsenController extends Controller
      */
     public function edit(Absen $absen)
     {
-        //
+        return view('dashboard.absen.edit', [
+            "title" => "halaman absen edit",
+            "user" => $absen->user
+        ]); 
     }
 
     /**
@@ -83,7 +82,7 @@ class AbsenController extends Controller
      */
     public function update(Request $request, Absen $absen)
     {
-        //
+    
     }
 
     /**
@@ -91,6 +90,8 @@ class AbsenController extends Controller
      */
     public function destroy(Absen $absen)
     {
-        //
+        Absen::destroy($absen->id);
+        $absen->user->update(['keterangan' => false]);
+        return redirect('/dashboard/absen')->with('danger', "Absen Berhasil Di hapus");
     }
 }

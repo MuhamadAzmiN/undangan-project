@@ -16,6 +16,16 @@ class User extends Authenticatable
         return $this->hasMany(Absen::class, 'nis', 'nis');
     }
 
+    public function post()
+    {
+        return $this->hasMany(Post::class); 
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(comment::class); 
+    }
+
     
     /**
      * The attributes that are mass assignable.
@@ -52,6 +62,15 @@ class User extends Authenticatable
     public function getRouteKeyName()
     {
         return 'id';
+    }
+
+
+    public function scopeFilter($query)
+    {
+        if(request('seacrh')){
+            $query->where('nis', 'like' , '%' . request('seacrh') . '%')
+                    ->orWhere('name', 'like', '%' . request('seacrh') . '%');
+        }
     }
 }
 

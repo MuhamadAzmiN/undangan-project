@@ -23,9 +23,12 @@ class AbsenChart
         $userKeterangan = Absen::all();
         $absenCount = $userKeterangan->count();
         return $this->chart->pieChart()
-            ->setTitle('Top 3 scorers of the team.')
-            ->setSubtitle('Season 2021.')
+            ->setTitle('')
+            ->setSubtitle('')
             ->addData([$userCount, $absenCount ])
-            ->setLabels(['Belum Hadir', 'Sudah hadir']);
+            ->setLabels(['Belum Hadir', 'Sudah hadir'])
+            ->setWidth(320) // Mengatur lebar chart (opsional)
+            ->setHeight(400); // Mengatur tinggi chart (opsional)
+           
     }
 }
