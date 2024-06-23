@@ -14,7 +14,7 @@ class Like extends Model
 
     public function user()
     {
-       return $this->belongsTo(User::class);
+       return $this->belongsTo(User::class, 'user_id');
     }
 
     public function post()
@@ -24,12 +24,12 @@ class Like extends Model
 
     public function hasLike()
     {
-       return $this->belongsTo(Like::class)->where('Likes.user_id', Auth::user()->id);
+       return $this->belongsTo(Like::class)->where(Auth::user()->id);
     }
 
     public function totalLike()
     {
-       return $this->hasMany(Like::class)->count();
+       return $this->belongsTo(Like::class)->count();
     }
 
 

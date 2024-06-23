@@ -3,6 +3,7 @@
 namespace App\Livewire;
 use App\Models\Like;
 use App\Models\Post;
+use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,10 +18,18 @@ class PostLike extends Component
     }
     public function render()
     {
+
+        
         return view('livewire.post-like',[
-            'posts' => Post::with('user')->where('user_id', $this->postId)->get()
+            'posts' => Post::with('user')->where('user_id', $this->postId)->latest()->get(),
+            'totalLike' => Post::with('user')->where('user_id', $this->postId)->count(),
+            'like' =>  Like::latest()->get(),
+            "user" => User::latest()->paginate(5),
         ]);
     }
+    
+
+    
 
     public function like($id)
     {

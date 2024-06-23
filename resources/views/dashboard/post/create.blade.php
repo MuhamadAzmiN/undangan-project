@@ -1,11 +1,11 @@
 @extends('layout.main')
 @section('container')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="">
     <h1 class="h2">Edit {{ auth()->user()->name }}</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <!-- Tombol atau elemen lainnya di sini -->
 </div>
-</div>
+
 <div class="col-lg-8 mx-auto">
     <form action="/dashboard/post" method="POST" enctype="multipart/form-data">
         @csrf

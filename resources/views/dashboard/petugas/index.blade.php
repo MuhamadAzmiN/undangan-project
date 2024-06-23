@@ -3,7 +3,6 @@
 @section('container')
 <div class="container">
 
-    @include('partials.aside')
 
     <div style="display: flex;align-items:center;justify-content:center" class="barcode-container">
 

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('nis');
             $table->foreign("nis")->references('nis')->on('users');
+            $table->foreignId('user_id')->nullable();
 
         });
     }

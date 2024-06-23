@@ -6,6 +6,8 @@ use App\Charts\AbsenChart;
 use App\Charts\dataSiswa;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Like;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -27,6 +29,11 @@ class UserController extends Controller
 
         $userTjkt = User::where('romble', 'TJKT')->get();
         $jumlahTjkt = $userTjkt->count();
+
+
+        $jumlahLike = Like::where('post_id', auth()->user()->id)->get();
+        $countLike = $jumlahLike->count();
+        // dd($countLike);
 
         return view('dashboard.index', [
             "title" => "home",
@@ -59,8 +66,12 @@ class UserController extends Controller
 
     public function dataDiri(User $user)
     {
+        
         return view('dashboard.dataUser.edit',[
-            "title" => "Halaman edit Data diri"
+            "title" => "Halaman edit Data diri",
+            "user" =>User::all()
+            
+
         ]);
     }
 

@@ -17,7 +17,7 @@ class PetugasController extends Controller
     /**
      * Display a listing of the resource.
      */
-public function index()
+    public function index()
     {
     return view('dashboard.petugas.index', [
         "title" => "Halaman Petugas",
@@ -38,43 +38,58 @@ public function index()
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $user = User::where('nis', $request->nis)->first();
-        if (!$user) {
-            return redirect('/dashboard/petugas')->with('info', 'Nama tidak ditemukan dalam database.');
-        }
-    
-        $absen = Absen::where('nis', $request->nis)->first();
-    
-        if ($absen) {
-            return redirect('/dashboard/petugas')->with('info', 'Nama sudah absen.');
-        }
-        $absenCreate = Absen::create([
-            'id' => $request->id,
-            'nis' => $request->nis
-        ]);
-    
-        $user->keterangan = true;
-        $oneMinuteAfter = $absenCreate->created_at->addMinute(1);
+{
+    // Cari User berdasarkan 'nis'
+    $user = User::where('nis', $request->nis)->first();
 
-        if ($oneMinuteAfter->lessThanOrEqualTo(now())) {
-            return redirect('/dashboard/petugas')->with('success', 'Silahkan masuk.');
-        }
-        $user->save();
-        if ($oneMinuteAfter->lessThanOrEqualTo(now())) {
-            // Gunakan response JSON unidiuk memberi tahu halaman bahwa operasi berhasil dan modal harus ditampilkan
-            return response()->json([
-                'success' => true,
-                'message' => 'Silahkan masuk.'
-            ]);
-        }
-    
-        // Jika waktu tidak memenuhi kondisi, kembalikan response biasa
+    // Jika User tidak ditemukan, redirect dengan info
+    if (!$user) {
+        return redirect('/dashboard/petugas')->with('info', 'Nama tidak ditemukan dalam database.');
+    }
+
+    // Cek apakah sudah ada absen dengan 'nis' yang sama
+    $absen = Absen::where('nis', $request->nis)->first();
+
+    // Jika sudah ada absen dengan 'nis' yang sama, redirect dengan info
+    if ($absen) {
+        return redirect('/dashboard/petugas')->with('info', 'Nama sudah absen.');
+    }
+
+    // Validasi data yang diterima dari request
+    $request->validate([
+        'id' => 'required',
+        'nis' => 'required|unique:absens', // Pastikan 'nis' unik di tabel 'absens'
+    ]);
+
+    // Buat objek Absen baru dengan menggunakan create()
+    $absenCreate = Absen::create([
+        'id' => $request->id,
+        'nis' => $request->nis,
+        'user_id' => $user->id, // Isi 'user_id' dengan id User yang ditemukan
+    ]);
+
+    // Update keterangan User menjadi true
+    $user->keterangan = true;
+    $user->save();
+
+    // Tentukan waktu setelah 1 menit dari pembuatan absen
+    $oneMinuteAfter = $absenCreate->created_at->addMinute(1);
+
+    // Jika waktu sudah melewati 1 menit dari saat ini, kembalikan response JSON
+    if ($oneMinuteAfter->lessThanOrEqualTo(now())) {
         return response()->json([
             'success' => true,
-            'message' => 'Data berhasil ditambahkan.'
+            'message' => 'Silahkan masuk.'
         ]);
+    }
+
+    // Jika waktu belum melewati 1 menit, kembalikan response JSON
+    return response()->json([
+        'success' => false,
+        'message' => 'Data berhasil ditambahkan.'
+    ]);
 }
+
 
 
 
@@ -99,6 +114,7 @@ public function index()
 
         return view('dashboard.petugas.dataAbsen',[
             'title' => "Halaman Data Absen",
+            
             "absen" => Absen::latest()->get(),
             "belumAbsen" => User::where('keterangan', false)->get(),
             "user" => User::latest()->filter()->get(),
@@ -122,7 +138,7 @@ public function index()
     {
         
         return view('dashboard.petugas.chart',[
-            'title' => "Halaman Data Absen",
+            'title' => "Halaman Data Chart",
             "absen" => Absen::latest()->get(),
             "belumAbsen" => User::where('keterangan', false)->get(),
             "user" => User::latest()->get(),
@@ -155,8 +171,16 @@ public function index()
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Absen $absen, User $user, $id)
     {
-        //
+    
+        $userId = User::find($id);
+      
+        Absen::where('user_id', $absen->id)->delete();
+    
+        $user->keterangan = false;
+        $user->save();
+        
+        return redirect('/dashboard/dataAbsen')->with('success', 'berhasil terhapus');
     }
 }

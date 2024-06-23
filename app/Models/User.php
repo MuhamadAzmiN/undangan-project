@@ -16,6 +16,12 @@ class User extends Authenticatable
         return $this->hasMany(Absen::class, 'nis', 'nis');
     }
 
+
+    public function absens()
+    {
+        return $this->hasMany(Absen::class);
+    }
+
     public function post()
     {
         return $this->hasMany(Post::class); 
@@ -26,10 +32,16 @@ class User extends Authenticatable
         return $this->hasMany(comment::class); 
     }
 
+    public function likes() {
+        return $this->hasMany(Like::class, 'user_id');
+    }
+    
+
+
     
     /**
      * The attributes that are mass assignable.
-     *
+     *os
      * @var array<int, string>
      */
     // protected $fillable = [

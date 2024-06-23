@@ -6,6 +6,7 @@
   <link rel="shortcut icon" href="./img/fav.png" type="image/x-icon">  
   <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">  
+  <link rel="stylesheet" type="text/css" href="css/aside.css">
   <title>Welcome To Cleopatra</title>
 </head>
 <style>
@@ -43,21 +44,21 @@
       <p class="uppercase text-xs text-gray-600 mb-4 tracking-wider">homes</p>
 
       <!-- link -->
-      <a href="/home" class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
+      <a href="/home" class="{{ $title == "home" ? "active" : "" }} mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
         <i class="fad fa-chart-pie text-xs mr-2"></i>                
         Home
       </a>
       <!-- end link -->
-      <a href="/dashboard/dataAbsen" class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
+      <a href="/dashboard/dataAbsen"   class="{{ $title == "Halaman Data Absen" ? "active" : "" }} mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
         <i class="fad fa-envelope-open-text text-xs mr-2"></i>
         Data Absen
       </a>
-      <a href="/dashboard/chart" class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
-        <i class="fad fa-shopping-cart text-xs mr-2"></i>
-        Data Chart
+      <a href="/dashboard/pengunjung"   class="{{ $title == "halaman data Pengunjung" ? "active" : "" }} mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
+        <i class="bi bi-database-fill"></i>
+        Data Pengunjung
       </a>
-      <a href="/dashboard/post" class="mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
-        <i class="fad fa-shopping-cart text-xs mr-2"></i>
+      <a href="/dashboard/post"   class="{{ $title == "post" ? "active" : "" }} mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
+        <i class="bi bi-file-post mr-2"></i>
         Post User
       </a>
 

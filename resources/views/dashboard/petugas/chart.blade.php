@@ -3,7 +3,7 @@
 @section('container')
 {!! $chart->script() !!}
 
-<div class="bg-gray-100 flex-1 p-6 md:mt-16"> 
+    <div class="bg-gray-100 flex-1 p-6 md:mt-16"> 
 
     <!-- congrats & summary -->
     <div class="grid grid-cols-3 lg:grid-cols-1 gap-5">

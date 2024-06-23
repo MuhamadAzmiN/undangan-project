@@ -395,63 +395,7 @@
     <!-- end Browser Stats -->
 
     <!-- Start Recent Sales -->
-     @if (session()->has('success'))
-        <div class="alert alert-success" role="alert">
-            {{  session('success') }}
-          </div>
-        @endif
-    <div class="card col-span-2 xl:col-span-1">
-        <div class="card-header"><span style="text-align: center">Data Pengunjung</span>
-        </div>
-        <table class="table-auto w-full text-left">
-            <thead>
-                <tr>
-                    <th class="px-4 py-2 border-r">No</th>
-                    <th class="px-4 py-2 border-r">Name</th>
-                    <th class="px-4 py-2 border-r">Nis</th>
-                    <th class="px-4 py-2 border-r">Romble</th>
-                    @can('admin')
-                    <th class="px-4 py-2 border-r">Aksi</th>
-                        
-                    @endcan
-                    
-                </tr>
-            </thead>
-            <tbody class="text-gray-600">
-                @foreach ($data as $item)
-                <tr>                    
-                    <td class="border border-l-0 px-4 py-2 text-center text-green-500">{{ $loop->iteration }}</td>
-                    <td class="border border-l-0 px-4 py-2">{{ $item->name }}</td>
-                    <td class="border border-l-0 px-4 py-2">{{ $item->nis }}</td>
-                    <td class="border border-l-0 border-r-0 px-4 py-2">{{ $item->romble }}</td>
-                    @can('admin')
-                    <td class="border border-l-0 border-r-0 px-4 py-2">
-                
-                        
-                    <a class="badge bg-info" href="/dashboard/user/{{ $item->id }}">
-                        <i class="bi bi-ticket-detailed-fill Smaller heading"></i>
-                    </a>
-                    <form class="d-inline" action="/dashboard/user/{{ $item->id }}" method="POST">
-                        @method('delete')
-                        @csrf
-                        
-                        <button onclick="return confirm('Are You Sure?')" class=" badge bg-danger border-0"> <i class="bi bi-trash2"></i></i></button>
-                    </form>
-                    <a class="badge bg-warning" href="/dashboard/user/{{ $item->id }}/edit">
-                        <i class="bi bi-ticket-detailed-fill Smaller heading"></i>
-                    </a>
-                </td>
-                @endcan
-            </tr>
-                @endforeach
-                
-            </tbody>
-        </table>
-    </div>
-    <!-- End Recent Sales -->
 
-
-</div>
     <!-- end quick Info -->
         
 

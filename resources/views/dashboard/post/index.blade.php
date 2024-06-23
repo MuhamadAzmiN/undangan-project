@@ -3,6 +3,7 @@
 @section('container')
   
 <link rel="stylesheet" href="/css/postingan.css">
+
     <div class="postingan-container">
         <div class="container-one">
             <div class="padding-container">
@@ -14,6 +15,7 @@
                     src="{{ auth()->user()->image ? asset('storage/' . auth()->user()->image) : 'https://th.bing.com/th/id/OIP.dcLFW3GT9AKU4wXacZ_iYAAAAA?rs=1&pid=ImgDetMain' }}" 
                     alt="Profile Image">
                     <p>What's on your mind?</p>
+                    <a style="margin-left: 230px" href="/dashboard/post/create"> Create Post?</a>
                 </div>
             </div>
         </div>
@@ -37,6 +39,7 @@
                 src="{{ $item->image ? asset('storage/' . $item->image) : 'https://th.bing.com/th/id/OIP.dcLFW3GT9AKU4wXacZ_iYAAAAA?rs=1&pid=ImgDetMain' }}" 
                 alt="Profile Image">
                 <p style="color:black">{{ $item->name }}</p>
+                
             </div>
             @endforeach
         </div>

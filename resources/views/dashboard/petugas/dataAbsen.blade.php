@@ -22,6 +22,10 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                        @can('admin')
+                            
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -42,7 +46,7 @@
                             <!-- Status -->
                             <div class="flex items-center">
                                 <span class="mr-2">
-                                    @if ($item->keterangan == true)
+                                    @if ($item->keterangan)
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                         Sudah Absen
                                     </span>
@@ -52,14 +56,56 @@
                                     </span>
                                     @endif
                                 </span>
+        
+                                        
+                                    
                                 <i class="fad fa-circle {{ $item->keterangan == true ? "text-green-500" : "text-red-500" }}"></i>
                             </div>
                         </td>
+
+                        @foreach ($item->absens as $absen)
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <!-- Waktu Dibuat -->
-                            {{ $item->created_at }}
-                        </td>
-                    </tr>
+                            @if ($item->keterangan)
+
+                            
+                                
+                                {{ $absen->created_at }}
+                                
+                                @elseif(!$item->keterangan) 
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    Segera Absensi
+                                </span>
+                                @endif
+                            </td>
+                            
+                            @can('admin')
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <!-- Waktu Dibuat -->
+                                
+                            @if ($item->keterangan)
+                                {{-- {{ $absen->created_at }} --}}
+                                
+                                <form action="/dashboard/petugas/{{ $absen->id }}" method="post">
+                                    @method('delete')
+                                @csrf
+                                <button class="btn btn-danger" type="submit">HAPUS</button>
+                                    
+                                </form>
+                                
+                                @else 
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    Segera Absensi
+                                </span>
+                                @endif
+                            </td>
+                            @endcan
+                            
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        @endforeach
                     @endforeach
                 </tbody>
             </table>

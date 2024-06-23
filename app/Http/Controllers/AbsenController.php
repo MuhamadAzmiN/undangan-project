@@ -36,7 +36,7 @@ class AbsenController extends Controller
         if (!$user) {
             return redirect('/dashboard/absen')->with('info', 'Nama tidak ditemukan dalam database.');
         }
-    
+
         $absen = Absen::where('nis', $request->nis)->first();
     
         if ($absen) {
@@ -44,9 +44,12 @@ class AbsenController extends Controller
         }
         $absenCreate = Absen::create([
             'id' => $request->id,
-            'nis' => $request->nis
-        ]);
+            'nis' => $request->nis,
     
+        ]);
+        
+
+        $absenCreate["user_id"] =  
         // Mengupdate keterangan user
         $user->keterangan = true;
         $oneMinuteAfter = $absenCreate->created_at->addMinute(1);
@@ -94,4 +97,19 @@ class AbsenController extends Controller
         $absen->user->update(['keterangan' => false]);
         return redirect('/dashboard/absen')->with('danger', "Absen Berhasil Di hapus");
     }
+
+
+    public function hapus(Absen $absen)
+    {
+    // Mengecek apakah $absen ada
+    $userId = User::find($absen->user_id);
+    Absen::destroy($absen->id);
+
+    $userId->keterangan = false;
+    $userId->save();
+    
+
+    return redirect('/dashboard/dataAbsen')->with('success', 'Berhasil terhapus');
+    }
+
 }

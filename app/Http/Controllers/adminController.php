@@ -12,7 +12,10 @@ class adminController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.pengunjung.index',[
+            "title" => "halaman data Pengunjung",
+            "data" => User::all(),
+        ]);
     }
 
     /**
@@ -102,7 +105,7 @@ class adminController extends Controller
         
         User::destroy($user->id);
         
-        return redirect('/')->with('success', "User Berhasil Di hapus");
+        return redirect('/dashboard/pengunjung')->with('success', "User Berhasil Di hapus");
     }
     
 }
