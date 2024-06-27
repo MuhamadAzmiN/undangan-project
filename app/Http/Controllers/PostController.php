@@ -16,7 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        
+
         $user = User::paginate(3);        // $jumlahUser = $user->count();
         // dd($jumlahUser);
         return view('dashboard.post.index',[
@@ -24,8 +24,8 @@ class PostController extends Controller
             "post" => Post::latest()->get(),
             "like" => Like::all(),
             "user" => $user
-            
-        ]); 
+
+        ]);
     }
 
     /**ost
@@ -34,7 +34,8 @@ class PostController extends Controller
     public function create()
     {
         return view('dashboard.post.create',[
-            "title" => "Halaman Create"
+            "title" => "Halaman Create",
+
         ]);
     }
 

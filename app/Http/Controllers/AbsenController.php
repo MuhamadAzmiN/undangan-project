@@ -58,12 +58,11 @@ class AbsenController extends Controller
             return redirect('/dashboard/post')->with('success', 'Silahkan masuk.');
         }
         $user->save();
-        return redirect('/dashboard/absen')->with('success', 'Silahkan masuk.');
+        return redirect('/dashboard/dataAbsen')->with('success', 'Silahkan masuk.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
+    
     public function show(Absen $absen)
     {
         //

@@ -1,20 +1,14 @@
-@extends('layout.main')
+@extends('dashboard.dataUser.main')
 
 
-@section('container')
+@section('datadiri')
 <link rel="stylesheet" href="/css/dataDiri.css">
-
+@section('button')
+<form action="/dashboard/dataUser" method="GET">
+  <button type="submit" style="background-color: white; border-radius: 59px; height: 25px; width: 60px; border: 1px solid #196ecd;">Data</button>
+</form>
+@endsection
 <div class="user-container">
-    <div class="user-article">
-        
-        <img style="border-radius: 50%; max-width: 100px; max-height: 100px; width: 100px; height: 100px; object-fit: cover; margin-right: 10px;" class="img-responsive" 
-        src="{{ auth()->user()->image ? asset('storage/' . auth()->user()->image) : 'https://th.bing.com/th/id/OIP.dcLFW3GT9AKU4wXacZ_iYAAAAA?rs=1&pid=ImgDetMain' }}" 
-        alt="Profile Image">
-        <div class="text-user">
-            <p class="text-muted">Selamat Datang,</p>
-            <h1 style="font-size: 20px;font-weight:bold">{{ auth()->user()->name }}</h1>
-        </div>
-    </div>
     <hr style="margin-bottom: 20px">
     @if (session()->has('success'))
     <div style="" id="imageErrorToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -103,7 +97,7 @@
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
-                @enderror
+              @enderror
                 <div class="modal-body">
                     <form action="{{ route('datadiri.image') }}" method="POST" enctype="multipart/form-data">
                         @csrf

@@ -44,7 +44,7 @@ class PetugasController extends Controller
 
     // Jika User tidak ditemukan, redirect dengan info
     if (!$user) {
-        return redirect('/dashboard/petugas')->with('info', 'Nama tidak ditemukan dalam database.');
+        return redirect('/dashboard/dataAbsen')->with('info', 'Nis tidak ditemukan dalam database.');
     }
 
     // Cek apakah sudah ada absen dengan 'nis' yang sama
@@ -52,7 +52,7 @@ class PetugasController extends Controller
 
     // Jika sudah ada absen dengan 'nis' yang sama, redirect dengan info
     if ($absen) {
-        return redirect('/dashboard/petugas')->with('info', 'Nama sudah absen.');
+        return redirect('/dashboard/dataAbsen')->with('info', 'Nama sudah absen.');
     }
 
     // Validasi data yang diterima dari request
@@ -67,27 +67,16 @@ class PetugasController extends Controller
         'nis' => $request->nis,
         'user_id' => $user->id, // Isi 'user_id' dengan id User yang ditemukan
     ]);
-
-    // Update keterangan User menjadi true
     $user->keterangan = true;
     $user->save();
 
-    // Tentukan waktu setelah 1 menit dari pembuatan absen
-    $oneMinuteAfter = $absenCreate->created_at->addMinute(1);
 
-    // Jika waktu sudah melewati 1 menit dari saat ini, kembalikan response JSON
-    if ($oneMinuteAfter->lessThanOrEqualTo(now())) {
-        return response()->json([
-            'success' => true,
-            'message' => 'Silahkan masuk.'
-        ]);
-    }
 
-    // Jika waktu belum melewati 1 menit, kembalikan response JSON
-    return response()->json([
-        'success' => false,
-        'message' => 'Data berhasil ditambahkan.'
-    ]);
+    return redirect('/dashboard/dataAbsen')->with('success', 'berhasil absen anda hari ini');
+    // return response()->json([
+    //     'success' => false,
+    //     'message' => 'Data berhasil ditambahkan.'
+    // ]);
 }
 
 
@@ -178,8 +167,8 @@ class PetugasController extends Controller
       
         Absen::where('user_id', $absen->id)->delete();
     
-        $user->keterangan = false;
-        $user->save();
+        $userId->keterangan = false;
+        $userId->save();
         
         return redirect('/dashboard/dataAbsen')->with('success', 'berhasil terhapus');
     }

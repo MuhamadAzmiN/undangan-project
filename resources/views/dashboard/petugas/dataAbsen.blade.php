@@ -13,7 +13,26 @@
             </button>
         </form>
     </div>
-
+    @if (session()->has('success'))
+    <div style="margin-top: 15px;margin-left:15px" id="imageErrorToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+       <div class="d-flex">
+           <div class="toast-body d-flex justify-content-center">
+               {{ session('success') }}
+           </div>
+           <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+       </div>
+   </div>
+    @endif
+     @if (session()->has('info'))
+     <div style="margin-top: 15px;margin-left:15px" id="imageErrorToast" class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body d-flex justify-content-center">
+                {{ session('info') }}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+     @endif
     <div class="overflow-x-auto mt-6">
         <div class="min-w-full overflow-hidden overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
@@ -23,7 +42,6 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
                         @can('admin')
-                            
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                         @endcan
                     </tr>
@@ -86,7 +104,8 @@
                             @if ($item->keterangan)
                                 {{-- {{ $absen->created_at }} --}}
                                 
-                                <form action="/dashboard/petugas/{{ $absen->id }}" method="post">
+                                <form action="{{ route('absen.destroy', ['absen' => $absen->id]) }}" method="post">
+                                
                                     @method('delete')
                                 @csrf
                                 <button class="btn btn-danger" type="submit">HAPUS</button>
@@ -112,6 +131,27 @@
         </div>
     </div>
 </div>
+<script>
+     document.addEventListener('DOMContentLoaded', function() {
+        var imageErrorToast = document.getElementById('imageErrorToast');
+        var toast = new bootstrap.Toast(imageErrorToast);
+        
+        @if ($errors->has('image'))
+            toast.show();
+        @endif
 
+        @if (session()->has('danger'))
+            toast.show();
+        @endif
+
+        @if (session()->has('success'))
+            toast.show();
+        @endif
+
+        @if (session()->has('info'))
+            toast.show();
+        @endif
+    });
+</script>
 {!! $chart->script() !!}
 @endsection

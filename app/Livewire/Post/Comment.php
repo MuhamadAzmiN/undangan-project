@@ -25,7 +25,7 @@ class Comment extends Component
     public function render()
     {
         $post = Post::find($this->postId);
-
+        
         return view('livewire.post.comment',[
             'komen' => ModelsComment::with('user')->where('post_id', $this->postId)->get(),
             'post' => $post
