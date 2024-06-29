@@ -14,9 +14,23 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
 
+        $user = User::paginate(3);        // $jumlahUser = $user->count();
+        // dd($jumlahUser);
+//        dd($request->cari);
+        return view('dashboard.post.index',[
+            "title" => "post",
+            "post" => Post::latest()->filter()->get(),
+            "like" => Like::all(),
+            "user" => $user
+
+        ]);
+    }
+
+    public  function lihat()
+    {
         $user = User::paginate(3);        // $jumlahUser = $user->count();
         // dd($jumlahUser);
         return view('dashboard.post.index',[
@@ -27,6 +41,8 @@ class PostController extends Controller
 
         ]);
     }
+
+
 
     /**ost
      * Show the form for creating a new resource.

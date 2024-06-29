@@ -7,6 +7,7 @@ use App\Charts\dataSiswa;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Like;
+use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -74,9 +75,20 @@ class UserController extends Controller
             "title" => "halaman edit"
         ]);
     }
+    public  function dataUser()
+    {
+        $userId = auth()->user()->id;
+        $post = Post::where('user_id', $userId)->latest()->get();
+
+        return view('dashboard.dataUser.dataDiri',[
+            "title" => "Halaman data diri",
+            "post" => $post
+        ]);
+    }
 
     public function update(Request $request, User $user)
     {
+
         $rules = [
             "name" => "required|max:255",
             "nis" => "required",

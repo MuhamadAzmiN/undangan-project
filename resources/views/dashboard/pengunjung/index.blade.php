@@ -40,6 +40,10 @@
                         No
                     </th>
                     <th scope="col" class="px-2 py-2 font-medium text-gray-500 uppercase tracking-wider">
+                        Profile
+                    </th>
+
+                    <th scope="col" class="px-2 py-2 font-medium text-gray-500 uppercase tracking-wider">
                         Name
                     </th>
                     <th scope="col" class="px-2 py-2 font-medium text-gray-500 uppercase tracking-wider">
@@ -71,6 +75,12 @@
                 @foreach ($data as $item)
                 <tr>
                     <td class="px-2 py-2">{{ $loop->iteration }}</td>
+                    <td class="px-2 py-2">
+
+                        <div class="w-10 h-10 overflow-hidden rounded-full">
+                            <img class="img-responsive" src="{{ $item->image ? asset('storage/' . $item->image) : 'https://th.bing.com/th/id/OIP.dcLFW3GT9AKU4wXacZ_iYAAAAA?rs=1&pid=ImgDetMain' }}" alt="">
+                        </div>
+                    </td>
                     <td class="px-2 py-2">{{ $item->name }}</td>
 
                     <td class="px-2 py-2">{{ $item->rayon }}</td>

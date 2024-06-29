@@ -3,6 +3,7 @@
 @section('container')
 
 <link rel="stylesheet" href="/css/postingan.css">
+<link rel="stylesheet" href="/css/seacrh-post.css">
 
     <div class="postingan-container">
         <div class="container-one">
@@ -19,6 +20,7 @@
                 </div>
             </div>
         </div>
+
         @livewire('post-like', ['id' => auth()->user()->id])
         @foreach ($post as $item)
 

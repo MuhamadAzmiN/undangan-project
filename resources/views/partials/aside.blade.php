@@ -57,6 +57,15 @@
         Post User
       </a>
 
+      @can('admin')
+      <a href="/dashboard/adminPost"   class="{{ Request::is('dashboard/adminPost*') ? 'active' : "" }} mb-3 capitalize font-medium text-sm hover:text-teal-600 transition ease-in-out duration-500">
+        <i class="bi bi-database-fill-lock"></i>
+        Postingan Service
+      </a>
+
+        @endcan
+
+
 
 {{----}}
         <p class="uppercase text-xs text-gray-600 mb-4 mt-4 tracking-wider">apps</p>

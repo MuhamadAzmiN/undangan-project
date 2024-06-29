@@ -19,7 +19,7 @@ class PostLike extends Component
     public function render()
     {
         return view('livewire.post-like', [
-            'posts' => Post::all(),
+            'posts' => Post::latest()->filter()->get(),
             'totalLike' => Post::with('user')->where('user_id', $this->postId)->count(),
             'like' => Like::latest()->get(),
             'user' => User::latest()->paginate(5),
