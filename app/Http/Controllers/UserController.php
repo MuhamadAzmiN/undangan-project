@@ -6,6 +6,9 @@ use App\Charts\AbsenChart;
 use App\Charts\dataSiswa;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Like;
+use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -18,7 +21,7 @@ class UserController extends Controller
 
         $userPPLG = User::where('romble', 'PPLG')->get();
         $jumlahPPLG = $userPPLG->count();
-        
+
         $userHTL = User::where('romble', 'HTL')->get();
         $jumlahHTL = $userHTL->count();
 
@@ -27,6 +30,11 @@ class UserController extends Controller
 
         $userTjkt = User::where('romble', 'TJKT')->get();
         $jumlahTjkt = $userTjkt->count();
+
+
+        // $jumlahLike = Like::where('post_id', auth()->user()->id)->get();
+        // $countLike = $jumlahLike->count();
+        // dd($countLike);
 
         return view('dashboard.index', [
             "title" => "home",
@@ -41,26 +49,23 @@ class UserController extends Controller
     }
 
     public function detail(User $user)
-    {   
+    {
         return view('dashboard.detail',[
             "title" => "halaman detail",
             "user" => $user
         ]);
     }
 
-    public function dataSiswa()
-    {   
-        return view('dashboard.dataSiswa', [
-            "title" => "dataSiswa",
-            "data" => User::paginate(10)
-        ]);
-    }
 
 
     public function dataDiri(User $user)
     {
+
         return view('dashboard.dataUser.edit',[
-            "title" => "Halaman edit Data diri"
+            "title" => "Halaman edit Data diri",
+            "user" =>User::all()
+
+
         ]);
     }
 
@@ -70,9 +75,20 @@ class UserController extends Controller
             "title" => "halaman edit"
         ]);
     }
+    public  function dataUser()
+    {
+        $userId = auth()->user()->id;
+        $post = Post::where('user_id', $userId)->latest()->get();
+
+        return view('dashboard.dataUser.dataDiri',[
+            "title" => "Halaman data diri",
+            "post" => $post
+        ]);
+    }
 
     public function update(Request $request, User $user)
     {
+
         $rules = [
             "name" => "required|max:255",
             "nis" => "required",
@@ -83,7 +99,7 @@ class UserController extends Controller
         // if($request->slug !== $user->slug)
         // {
         //     $rules['slug'] = 'required|unique:posts';
-        // }   
+        // }
 
         $validateData = $request->validate($rules);
 
@@ -93,18 +109,18 @@ class UserController extends Controller
                 Storage::delete($request->oldImage);
             }
             $validateData["image"] = $request->file('image')->store('user-image');
-        }           
-        
+        }
+
         User::where('id', auth()->user()->id)
                     ->update($validateData);
 
         if(auth()->user()->id !== auth()->user()->id) {
                         abort(403);
         }
-        
+
 
         return redirect('/dashboard/dataDiri')->with('success', " Data anda Berhasil Terupdate");
-        
+
     }
 
 
@@ -117,11 +133,11 @@ class UserController extends Controller
         // if($request->slug !== $user->slug)
         // {
         //     $rules['slug'] = 'required|unique:posts';
-        // }   
-        
+        // }
+
         $validateData = $request->validate($rules);
 
-        
+
         if($request->file('image')){
 
             if($request->oldImage){
@@ -130,18 +146,18 @@ class UserController extends Controller
             $validateData["image"] = $request->file('image')->store('user-image');
         }else {
             return redirect('/dashboard/dataDiri')->with('danger', 'Silahkan upload berupa gambar');
-        }   
-        
+        }
+
         User::where('id', auth()->user()->id)
                     ->update($validateData);
-        
+
 
         return redirect('/dashboard/dataDiri')->with('success', "Berhasil Mengubah Profile anda");
-        
+
     }
 
 
-    
+
 
 
 }

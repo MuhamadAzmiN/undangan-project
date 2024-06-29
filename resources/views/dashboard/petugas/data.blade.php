@@ -32,8 +32,8 @@
 
             <p class="font-bold text-gray-900">{{ $item->created_at }}</p>
         </div>
-            
-        @endforeach 
+
+
 
     </div>
 

@@ -21,7 +21,7 @@ class RegisterController extends Controller
         "nis" => ['required', 'min:3', 'max:224', 'unique:users'],
         "rayon" => 'required',
         "romble" => "required",
-        "password" => 'required|min:5|max:255'            
+        "password" => 'required|min:5|max:255'
     ]);
     // cara yang pertama
     $validateData['password'] = bcrypt($validateData["password"]);

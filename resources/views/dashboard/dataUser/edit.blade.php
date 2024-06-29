@@ -1,21 +1,14 @@
-@extends('layout.main')
+@extends('dashboard.dataUser.main')
 
 
-@section('container')
+@section('datadiri')
 <link rel="stylesheet" href="/css/dataDiri.css">
-
+@section('button')
+<form action="/dashboard/dataUser" method="GET">
+  <button type="submit" style="background-color: white; border-radius: 59px; height: 25px; width: 60px; border: 1px solid #196ecd;">Data</button>
+</form>
+@endsection
 <div class="user-container">
-    <div class="user-article">
-        
-        <img style="border-radius: 50%; max-width: 100px; max-height: 100px; width: 100px; height: 100px; object-fit: cover; margin-right: 10px;" class="img-responsive" 
-        src="{{ auth()->user()->image ? asset('storage/' . auth()->user()->image) : 'https://th.bing.com/th/id/OIP.dcLFW3GT9AKU4wXacZ_iYAAAAA?rs=1&pid=ImgDetMain' }}" 
-        alt="Profile Image">
-        <div class="text-user">
-            <p class="text-muted">Selamat Datang,</p>
-            
-            <h1 style="font-size: 20px;font-weight:bold">{{ auth()->user()->name }}</h1>
-        </div>
-    </div>
     <hr style="margin-bottom: 20px">
     @if (session()->has('success'))
     <div style="" id="imageErrorToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -48,7 +41,28 @@
          </div>
      </div>
      @endif
-    
+     {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Launch static backdrop modal
+      </button> --}}
+      
+      <!-- Modal -->
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
     <div class="data-diri" style="margin-top: 30px">

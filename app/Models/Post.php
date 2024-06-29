@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Like;
+
 class Post extends Model
 {
     use HasFactory;
@@ -45,4 +46,15 @@ class Post extends Model
     {
        return $this->hasMany(Like::class)->count();
     }
+
+    public function scopeFilter($query)
+    {
+        if (request()->has('cari')) {
+            $keywords = explode(' ', request('cari'));
+            foreach ($keywords as $keyword) {
+                $query->where('body', 'like', '%' . $keyword . '%');
+            }
+        }
+    }
+
 }

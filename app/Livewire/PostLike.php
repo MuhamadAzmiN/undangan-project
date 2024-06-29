@@ -3,24 +3,31 @@
 namespace App\Livewire;
 use App\Models\Like;
 use App\Models\Post;
+use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
 class PostLike extends Component
 {
     public $body, $postId;
-    
+
     public function mount($id)
     {
         $this->postId = $id;
-        
+
     }
     public function render()
     {
-        return view('livewire.post-like',[
-            'posts' => Post::with('user')->where('user_id', $this->postId)->get()
+        return view('livewire.post-like', [
+            'posts' => Post::latest()->filter()->get(),
+            'totalLike' => Post::with('user')->where('user_id', $this->postId)->count(),
+            'like' => Like::latest()->get(),
+            'user' => User::latest()->paginate(5),
         ]);
     }
+
+
+
 
     public function like($id)
     {
@@ -40,6 +47,6 @@ class PostLike extends Component
 
 
         return NULL;
-        
+
     }
 }

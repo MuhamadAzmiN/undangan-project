@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,7 +12,10 @@ class adminController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.pengunjung.index',[
+            "title" => "halaman data Pengunjung",
+            "data" => User::all(),
+        ]);
     }
 
     /**
@@ -26,6 +29,7 @@ class adminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
         //
@@ -36,7 +40,7 @@ class adminController extends Controller
      */
     public function show(User $user)
     {
-        
+
         return view('dashboard.user.detail', [
             "title" => "Halaman Detail",
             "user" => $user
@@ -48,7 +52,7 @@ class adminController extends Controller
      */
     public function edit(User $user)
     {
-        
+
         return view('dashboard.user.edit', [
             "title" => "Halaman edit",
             "user" => $user
@@ -70,7 +74,7 @@ class adminController extends Controller
         // if($request->slug !== $user->slug)
         // {
         //     $rules['slug'] = 'required|unique:posts';
-        // }   
+        // }
 
         $validateData = $request->validate($rules);
 
@@ -80,18 +84,18 @@ class adminController extends Controller
         //         Storage::delete($request->oldImage);
         //     }
         //     $validateData["image"] = $request->file('image')->store('post-image');
-        // }           
-        
+        // }
+
         User::where('id', $user->id)
                     ->update($validateData);
 
         // if($user->user->id !== auth()->user()->id) {
         //                 abort(403);
         // }
-        
 
-        return redirect('/home')->with('success', "Berhasil Terupdate");
-        
+
+        return redirect('/dashboard/dataPengunjung')->with('success', "Berhasil Terupdate");
+
     }
 
     /**
@@ -99,10 +103,14 @@ class adminController extends Controller
      */
     public function destroy(User $user)
     {
-        
-        User::destroy($user->id);
-        
-        return redirect('/')->with('success', "User Berhasil Di hapus");
+
+        $user =  User::find($user->id);
+
+        $user->post()->delete();
+
+        $user->delete();
+
+        return redirect('/dashboard/dataPengunjung')->with('success', "User Berhasil Di hapus");
     }
-    
+
 }

@@ -1,11 +1,10 @@
 @extends('layout.main')
 
 @section('container')
-<div class="container">
 
-    @include('partials.aside')
 
-    <div style="display: flex;align-items:center;justify-content:center" class="barcode-container">
+
+    <div style="" class="barcode-container">
 
         <div class="barcode">
             <h1>Tap absen anda disini</h1>
@@ -72,7 +71,7 @@
                 </div>
             </div>
         </div>        
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>

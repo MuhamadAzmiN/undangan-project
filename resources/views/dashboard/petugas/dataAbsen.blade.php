@@ -13,7 +13,26 @@
             </button>
         </form>
     </div>
-
+    @if (session()->has('success'))
+    <div style="margin-top: 15px;margin-left:15px" id="imageErrorToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+       <div class="d-flex">
+           <div class="toast-body d-flex justify-content-center">
+               {{ session('success') }}
+           </div>
+           <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+       </div>
+   </div>
+    @endif
+     @if (session()->has('info'))
+     <div style="margin-top: 15px;margin-left:15px" id="imageErrorToast" class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body d-flex justify-content-center">
+                {{ session('info') }}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+     @endif
     <div class="overflow-x-auto mt-6">
         <div class="min-w-full overflow-hidden overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
@@ -22,6 +41,9 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                        @can('admin')
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -42,7 +64,7 @@
                             <!-- Status -->
                             <div class="flex items-center">
                                 <span class="mr-2">
-                                    @if ($item->keterangan == true)
+                                    @if ($item->keterangan)
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                         Sudah Absen
                                     </span>
@@ -52,20 +74,84 @@
                                     </span>
                                     @endif
                                 </span>
+        
+                                        
+                                    
                                 <i class="fad fa-circle {{ $item->keterangan == true ? "text-green-500" : "text-red-500" }}"></i>
                             </div>
                         </td>
+
+                        @foreach ($item->absens as $absen)
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <!-- Waktu Dibuat -->
-                            {{ $item->created_at }}
-                        </td>
-                    </tr>
+                            @if ($item->keterangan)
+
+                            
+                                
+                                {{ $absen->created_at }}
+                                
+                                @elseif(!$item->keterangan) 
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    Segera Absensi
+                                </span>
+                                @endif
+                            </td>
+                            
+                            @can('admin')
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <!-- Waktu Dibuat -->
+                                
+                            @if ($item->keterangan)
+                                {{-- {{ $absen->created_at }} --}}
+                                
+                                <form action="{{ route('absen.destroy', ['absen' => $absen->id]) }}" method="post">
+                                
+                                    @method('delete')
+                                @csrf
+                                <button class="btn btn-danger" type="submit">HAPUS</button>
+                                    
+                                </form>
+                                
+                                @else 
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    Segera Absensi
+                                </span>
+                                @endif
+                            </td>
+                            @endcan
+                            
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        @endforeach
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script>
+     document.addEventListener('DOMContentLoaded', function() {
+        var imageErrorToast = document.getElementById('imageErrorToast');
+        var toast = new bootstrap.Toast(imageErrorToast);
+        
+        @if ($errors->has('image'))
+            toast.show();
+        @endif
 
+        @if (session()->has('danger'))
+            toast.show();
+        @endif
+
+        @if (session()->has('success'))
+            toast.show();
+        @endif
+
+        @if (session()->has('info'))
+            toast.show();
+        @endif
+    });
+</script>
 {!! $chart->script() !!}
 @endsection

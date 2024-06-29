@@ -92,6 +92,10 @@ h1 {
     margin-right: 20px;
 }
 
+/* .input-2 {
+    margin-left: 200px;
+} */
+
 #btn-submit {
     background-color: #196ecd;
     color: white;
@@ -106,3 +110,10 @@ h1 {
     width: 500px;
 
 }
+
+  .modal-body svg {
+    width: 200px; /* Atur lebar barcode */
+    height: auto; /* Biarkan tinggi disesuaikan secara otomatis */
+    margin: auto; /* Pusatkan barcode */
+    display: block; /* Agar barcode tampil di tengah */
+  }

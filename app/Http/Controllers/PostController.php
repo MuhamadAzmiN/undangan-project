@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use App\Http\Requests\StorePostRequest;
@@ -13,22 +14,44 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $user = User::paginate(3);        // $jumlahUser = $user->count();
+        // dd($jumlahUser);
+//        dd($request->cari);
+        return view('dashboard.post.index',[
+            "title" => "post",
+            "post" => Post::latest()->filter()->get(),
+            "like" => Like::all(),
+            "user" => $user
+
+        ]);
+    }
+
+    public  function lihat()
+    {
+        $user = User::paginate(3);        // $jumlahUser = $user->count();
+        // dd($jumlahUser);
         return view('dashboard.post.index',[
             "title" => "post",
             "post" => Post::latest()->get(),
-            "user" => User::latest()->paginate(5)
-        ]); 
+            "like" => Like::all(),
+            "user" => $user
+
+        ]);
     }
 
-    /**
+
+
+    /**ost
      * Show the form for creating a new resource.
      */
     public function create()
     {
         return view('dashboard.post.create',[
-            "title" => "Halaman Create"
+            "title" => "Halaman Create",
+
         ]);
     }
 

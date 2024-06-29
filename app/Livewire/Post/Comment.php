@@ -18,12 +18,13 @@ class Comment extends Component
     public function mount($id)
     {
         $this->postId = $id;
-        
+
     }
 
 
     public function render()
     {
+
         $post = Post::find($this->postId);
 
         return view('livewire.post.comment',[
@@ -47,9 +48,11 @@ class Comment extends Component
         ]);
 
         // Redirect to dashboard post detail page
-      
-        return redirect('/dashboard/post');
-       
+
+//        return NULL;
+
+        return $this->redirect('/dashboard/post');
+
 
     }
 
@@ -73,6 +76,6 @@ class Comment extends Component
 
 
     //     return NULL;
-        
+
     // }
 }

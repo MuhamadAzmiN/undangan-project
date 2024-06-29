@@ -1,20 +1,15 @@
-@extends('layout.main')
+@extends('dashboard.dataUser.main')
 
 
-@section('container')
+@section('datadiri')
 <link rel="stylesheet" href="/css/dataDiri.css">
+@section('button')
+<form action="/dashboard/dataDiri" method="GET">
 
+    <button type="submit" style="background-color: white; border-radius: 59px; height: 25px; width: 60px; border: 1px solid #196ecd;">Edit</button>
+</form>
+@endsection
 <div class="user-container">
-    <div class="user-article">
-        
-        <img style="border-radius: 50%; max-width: 100px; max-height: 100px; width: 100px; height: 100px; object-fit: cover; margin-right: 10px;" class="img-responsive" 
-        src="{{ auth()->user()->image ? asset('storage/' . auth()->user()->image) : 'https://th.bing.com/th/id/OIP.dcLFW3GT9AKU4wXacZ_iYAAAAA?rs=1&pid=ImgDetMain' }}" 
-        alt="Profile Image">
-        <div class="text-user">
-            <p class="text-muted">Selamat Datang,</p>
-            <h1 style="font-size: 20px;font-weight:bold">{{ auth()->user()->name }}</h1>
-        </div>
-    </div>
     <hr style="margin-bottom: 20px">
     @if (session()->has('success'))
     <div style="" id="imageErrorToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -36,7 +31,7 @@
         </div>
     </div>
      @endif
-        
+
      @if ($errors->has('image'))
      <div style="" id="imageErrorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
          <div class="d-flex">
@@ -47,10 +42,10 @@
          </div>
      </div>
      @endif
-     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+     {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         Launch static backdrop modal
-      </button>
-      
+      </button> --}}
+
       <!-- Modal -->
       <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -80,7 +75,7 @@
 
             @if (auth()->user()->image)
             <img style="border-radius: 50%; max-width: 100px; max-height: 100px; width: 100px; height: 100px; object-fit: cover;margin-right:10px" class="img-responsive" src="{{ asset('storage/' . auth()->user()->image) }}" alt="Profile Image">
-            @else 
+            @else
             <img style="border-radius: 50%; max-width: 300px; max-height: 300px; width: 150px; height: 140px;" class="" src="https://th.bing.com/th/id/OIP.dcLFW3GT9AKU4wXacZ_iYAAAAA?rs=1&pid=ImgDetMain" alt="">
 
             @endif
@@ -88,6 +83,8 @@
         <button type="button" class="btn-image btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Ubah Foto Formal
         </button>
+
+
 
     </div>
 
@@ -105,7 +102,7 @@
                 </div>
               @enderror
                 <div class="modal-body">
-                    <form action="/dashboard/user/{{ $user->id }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('datadiri.image') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
@@ -118,67 +115,92 @@
                             </div>
                             @enderror
                         </div>
-                    
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
-                    </form>                    
+                    </form>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="form-input">
-            <form action="/dashboard/user/{{ $user->id }}" method="POST"  enctype="multipart/form-data">
+            <form action="{{ route('datadiri.edit') }}" method="POST"  enctype="multipart/form-data">
                 @csrf
                 @method('put')
-                <div class="input-all">
+                <div class="input-all" style="">
                     <div class="input-1">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror"  id="name" name="name" value="{{ old('user', $user->name )}}">
+                            <label for="romble" class="form-label">Username</label>
+                            <h1>{{ auth()->user()->name }}</h1>
+
                             {{-- @error('name')
                               <div class="invalid-feedback">
                                   {{ $message }}
                               </div>
                             @enderror --}}
-                          
+
                           </div>
                           <div class="mb-3">
-                            <label for="nis" class="form-label">nis</label>
-                            <input type="number" class="form-control @error('nis') is-invalid @enderror"  id="nis" name="nis" value="{{ old('nis', $user->nis)}}">
-            
-                          
+                            <label for="romble" class="form-label">nis</label>
+                            <h1>{{ auth()->user()->nis }}</h1>
+
+
+                          </div>
+                          <div class="mb-3">
+                            <label for="romble" class="form-label">Barcode</label>
+                            <h1>{!! DNS2D::getBarcodeSVG(auth()->user()->nis, 'QRCODE'); !!}</h1>
+
+
                           </div>
                     </div>
-                    <div class="input-2">
-    
-                        <div class="mb-3">
-                          <label for="rayon" class="form-label">rayon</label>
-                          <input type="text" class="form-control @error('rayon') is-invalid @enderror"  id="rayon" name="rayon" value="{{ old('rayon', $user->rayon) }}">
-                      
+                    <div class="input-2" style="margin-left: 300px">
+
+                        <div class="mb-4">
+                            <label for="romble" class="form-label">rayon</label>
+                            <h1>{{ auth()->user()->rayon }}</h1>
                         </div>
                         <div class="mb-3">
                           <label for="romble" class="form-label">romble</label>
-                          <input type="text" class="form-control @error('romble') is-invalid @enderror"  id="romble" name="romble" value="{{ old('romble', $user->romble )}}">
-                      
-                        
+                          <h1>{{ auth()->user()->romble }}</h1>
+
                         </div>
+
                     </div>
                 </div>
-                  <button id="btn-submit" type="submit" class="btn btn-primary mt-3">Update Post</button>
+
                 </form>
           </div>
     </div>
 </div>
-</div>
-<script>
+    <div class="data-diri" style="margin-top: 30px">
+            <h1 style="text-align: center;margin-bottom: 20px;margin-top: 20px;font-weight: bold" class="text-muted" style="font-weight: bold">Postingan Anda</h1>
+
+        <div class="profile-container">
+            <div class="profile">
+                <div class="all-profile" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    @foreach($post as $item)
+                        @if($item->image)
+                            <div class="profile-image">
+                                <img style="width: 200px; height: 200px; object-fit: cover;" class="img-responsive" src="{{ asset('storage/' . $item->image) }}" alt="">
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+            @if(count($post) == 0)
+                <h1 style="text-align: center; margin-bottom: 20px; margin-top: 40px; font-weight: bold;" class="text-muted">Anda Tidak Memiliki Post, <a href="/dashboard/post/create">Create Post disini</a></h1>
+            @endif
+        </div>
+
+        <script>
     // Menampilkan toast jika ada error pada input image
     document.addEventListener('DOMContentLoaded', function() {
         var imageErrorToast = document.getElementById('imageErrorToast');
         var toast = new bootstrap.Toast(imageErrorToast);
-        
+
         @if ($errors->has('image'))
             toast.show();
         @endif
